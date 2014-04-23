@@ -1,0 +1,18 @@
+pwd
+zsh
+cd usr/local/
+pwd
+exit
+pwd
+ll
+ls
+cd ~
+pwd
+ls
+cd Down
+cd Downloads/
+ls
+rm -f *.zip
+df -h
+ls -ltr
+exit
