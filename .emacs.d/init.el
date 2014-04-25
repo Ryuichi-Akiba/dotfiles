@@ -26,6 +26,11 @@
   (set-file-name-coding-system 'cp932)
   (setq locale-coding-system 'cp932))
 
+;; TABの表示幅。初期値は8
+(setq-default tab-width 4)
+;; インデントにタブ文字を使用しない
+(setq-default indent-tabs-mode nil)
+
 ;; タイトルバーにファイルのフルパスを表示
 (setq frame-title-format "%f")
 ;; 行番号を常に表示
