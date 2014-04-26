@@ -95,6 +95,17 @@
 ;; バッテリー残量を表示
 ;;(display-battery-mode t)
 
+;; バックアップファイルを作成しない
+;; (setq make-backup-files nil)
+;; オートセーブファイルを作らない
+;; (setq auto-save-default nil)
+;; バックアップファイルの作成場所をシステムのTempディレクトリに変更する
+(setq backup-directory-alist
+      `((".*" . ,temporary-file-directory)))
+;; オートセーブファイルの作成場所をシステムのTempディレクトリに変更する
+(setq auto-save-file-name-transforms
+      `((".*" ,temporary-file-directory t)))
+
 ;; 入力されるシーケンスを置き換える
 ;; ?\C-? はDELのシーケンス
 (keyboard-translate ?\C-h ?\C-?)
