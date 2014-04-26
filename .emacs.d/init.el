@@ -26,10 +26,30 @@
   (set-file-name-coding-system 'cp932)
   (setq locale-coding-system 'cp932))
 
+;; asciiフォント
+(set-face-attribute 'default nil
+                    :family "Menlo"
+                    :height 120)
+;; 日本語フォント
+(set-fontset-font
+ nil 'japanese-jisx0208
+ ;; 英語名の場合
+ ;; (font-spec :family "Hiragino Mincho Pro"))
+ (font-spec :family "ヒラギノ丸ゴ Pro"))
+
 ;; TABの表示幅。初期値は8
 (setq-default tab-width 4)
 ;; インデントにタブ文字を使用しない
 (setq-default indent-tabs-mode nil)
+
+(when (require 'color-theme nil t)
+  ;; テーマを読み込むための設定
+  (color-theme-initialize)
+  ;; テーマを変更する
+  (color-theme-subtle-hacker))
+
+;; リージョンの背景色を変更
+(set-face-background 'region "darkgreen")
 
 ;; タイトルバーにファイルのフルパスを表示
 (setq frame-title-format "%f")
