@@ -13,6 +13,17 @@
 ;; パスの設定
 (add-to-list 'exec-path "/usr/local/bin")
 
+;; package.elの設定
+(when (require 'package nil t)
+  ;; MELPAを追加
+  (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/"))
+  ;; ELPAを追加
+  (add-to-list 'package-archives '("ELPA" . "http://tromey.com/elpa"))
+  ;; Marmaladeを追加
+  (add-to-list 'package-archives  '("marmalade" . "http://marmalade-repo.org/packages/"))
+  ;; インストールしたパッケージにロードパスを通して読み込む
+  (package-initialize))
+
 ;; 文字コードの設定
 (set-language-environment "Japanese")
 (prefer-coding-system 'utf-8)
@@ -115,6 +126,52 @@
 ;; オートセーブファイル作成までのタイプ間隔
 ;; (setq auto-save-interval 60)
 
+;; multi-termの設定
+(when (require 'multi-term nil t)
+  ;; 利用するシェルを指定
+  (setq multi-term-program "/usr/local/bin/zsh"))
+
+;; ファイルが #! から始まる場合、+xを付けて保存する
+(add-hook 'after-save-hook
+          'executable-make-buffer-file-executable-if-script-p)
+
+;; emacs-lisp-modeのフックをセット
+;;(add-hook 'emacs-lisp-mode-hook
+;;          '(lambda ()
+;;             (when (require 'eldoc nil t)
+;;               (setq eldoc-idle-delay 0.2)
+;;               (setq eldoc-echo-area-use-multiline-p t)
+;;               (turn-on-eldoc-mode))))
+
+;; emacs-lisp-mode-hook用の関数を定義
+(defun elisp-mode-hooks ()
+  "lisp-mode-hooks"
+  (when (require 'eldoc nil t)
+    (setq eldoc-idle-delay 0.2)
+    (setq eldoc-echo-area-use-multiline-p t)
+    (turn-on-eldoc-mode)))
+;; emacs-lisp-modeのフックをセット
+(add-hook 'emacs-lisp-mode-hook 'elisp-mode-hooks)
+
+;; auto-installの設定
+(when (require 'auto-install nil t)
+  ;; インストールディレクトリを設定する 初期値は ~/.emacs.d/auto-install/
+  (setq auto-install-directory "~/.emacs.d/elisp/")
+  ;; EmacsWikiに登録されているelispの名前を取得する
+  (auto-install-update-emacswiki-package-name t)
+  ;; 必要であればプロキシの設定を行う
+  ;; (setq url-proxy-services '(("http" . "localhost:8339")))
+  ;; install-elispの関数を利用可能にする
+  (auto-install-compatibility-setup))
+
+;; redo+ の設定
+;; (install-elisp "http://www.emacswiki.org/emacs/download/redo+.el")
+(when (require 'redo+ nil t)
+  ;; C-' にリドゥを割り当てる
+  (global-set-key (kbd "C-'") 'redo)
+  ;; 日本語キーボードの場合C-. などがよいかも
+  ;; (global-set-key (kbd "C-.") 'redo)
+  )
 
 ;; 入力されるシーケンスを置き換える
 ;; ?\C-? はDELのシーケンス
@@ -125,3 +182,42 @@
 (define-key global-map (kbd "C-t") 'other-window)
 ;; 折り返しトグルコマンド
 ;; (define-key global-map (kbd "C-c l") 'toggle-truncate-lines)
+
+;; anything
+;; (auto-install-batch "anything")
+(when (require 'anything nil t)
+  (setq
+   ;; 候補を表示するまでの時間 デフォルトは0.5
+   anything-idle-delay 0.3
+   ;; タイプして再描画するまでの時間 デフォルトは0.1
+   anything-input-idle-delay 0.2
+   ;; 候補の最大表示数 デフォルトは50
+   anything-candidate-number-limit 100
+   ;; 候補が多いときに体感速度を速くする
+   anything-quick-update t
+   ;; 候補選択ショートカットをアルファベットに
+   anything-enable-shortcuts 'alphabet)
+
+   (when (require 'anything-config nil t)
+     ;; root権限でアクションを実行するときのコマンド
+     ;; デフォルトはsu
+     (setq anything-su-or-sudo "sudo"))
+
+   (require 'anything-match-plugin nil t)
+
+   (when (and (executable-find "cmigemo")
+              (require 'migemo nil t))
+     (require 'anything-migemoo nil t))
+
+   (when (require 'anything-complete nil t)
+     ;; lispシンボルの補完候補の再検索時間
+     (anything-lisp-complete-symbol-set-timer 150))
+
+   (require 'anything-show-completion nil t)
+
+   (when (require 'auto-install nil t)
+     (require 'anything-auto-install nil t))
+
+   (when (require 'descbinds-anything nil t)
+     ;; describe-bindingsをAnythingに置き換える
+     (descbinds-anything-install)))
