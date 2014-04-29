@@ -61,6 +61,7 @@ path=(
     $HOME/bin(N-/)
     /usr/local/bin(N-/)
     /usr/local/sbin(N-/)
+    $HOME/.nodebrew/current/bin(N-/)
     $path
 )
 
