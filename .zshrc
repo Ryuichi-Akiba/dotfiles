@@ -2,6 +2,9 @@
 # 環境変数
 # -------------------------------------
 
+# lsの色設定
+export LSCOLORS=gxfxcxdxbxegedabagacad
+
 # SSHで接続した先で日本語が使えるようにする
 export LC_CTYPE=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
@@ -127,6 +130,9 @@ alias ll="ls -l"
 # tree
 alias tree="tree -NC" # N: 文字化け対策, C:色をつける
 
+# vim
+alias vi="vim"
+alias view="vim -R"
 
 # -------------------------------------
 # キーバインド
@@ -155,4 +161,14 @@ function chpwd() { ls -la }
 function title {
     echo -ne "\033]0;"$*"\007"
 }
+
+# postgresql
+export PGDATA=/usr/local/var/postgres
+
+# Java
+export JAVA_HOME=`/usr/libexec/java_home`
+
+# G*
+[[ -s "/Users/akiba/.gvm/bin/gvm-init.sh" ]] && source "/Users/akiba/.gvm/bin/gvm-init.sh"
+
 
