@@ -10,12 +10,11 @@ export LC_CTYPE=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
 
 # エディタ
-export EDITOR=/usr/bin/vim
+export EDITOR=`which vim`
 
 # ページャ
-export PAGER=/usr/local/bin/vimpager
-export MANPAGER=/usr/local/bin/vimpager
-
+export PAGER=`which vimpager`
+export MANPAGER=`which vimpager`
 
 # -------------------------------------
 # zshのオプション
