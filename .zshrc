@@ -47,6 +47,9 @@ setopt hist_ignore_dups
 ## タブによるファイルの順番切り替えをしない
 unsetopt auto_menu
 
+## 小文字でも大文字にマッチさせる
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
+
 # cd -[tab]で過去のディレクトリにひとっ飛びできるようにする
 setopt auto_pushd
 
